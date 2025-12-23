@@ -140,16 +140,18 @@ const App: React.FC = () => {
           }} 
         />
       );
-      case 'ADD_PRODUCT': 
-      case 'EDIT_PRODUCT': 
-        return <AddProduct 
-          productToEdit={selectedProductId ? products[selectedProductId] : undefined}
-          onAdd={(p) => { 
-            handleUpdateProduct(p);
-            setCurrentScreen('PRODUCTS'); 
-          }} 
-          onBack={() => setCurrentScreen('PRODUCTS')} 
-        />;
+case 'ADD_PRODUCT':
+      case 'EDIT_PRODUCT':
+        return (
+          <AddProduct
+            productToEdit={selectedProductId ? products[selectedProductId] : undefined}
+            onAdd={(p) => {
+              handleUpdateProduct(p);
+              setCurrentScreen('PRODUCTS');
+            }}
+            onBack={() => setCurrentScreen('PRODUCTS')}
+          />
+        );
       case 'EDIT_CYCLE': return <EditCycle type={selectedNightToEdit!} currentProducts={selectedNightToEdit === 'AM' ? amRoutine : themes[selectedNightToEdit as number].products} allProducts={products} onSave={(t, pids) => {
         if(t === 'AM') { saveAMRoutine(pids); setAmRoutine(pids); setCurrentScreen('HOME'); }
         else { const nt = {...themes}; nt[t as number].products = pids; saveThemes(nt); setThemes(nt); setCurrentScreen('PM_OVERVIEW'); }
