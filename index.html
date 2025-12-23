@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="it" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="referrer" content="no-referrer">
+    <title>Skincare Quest - Glam & Gamified</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "quest-dark": "#0D001A",
+                        "quest-card": "#1E1035",
+                        "neon-pink": "#FF0099",
+                        "neon-cyan": "#00F0FF",
+                        "neon-lime": "#CCFF00",
+                        "gem-amethyst": "#9D00FF",
+                        "gem-ruby": "#FF003C",
+                        "gem-sapphire": "#0066FF",
+                        "text-glow": "#FFFFFF",
+                        "text-dim": "#B8A3D4"
+                    },
+                    fontFamily: {
+                        "display": ["Orbitron", "sans-serif"],
+                        "body": ["Outfit", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0D001A;
+            color: #FFFFFF;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+        .font-display { font-family: 'Orbitron', sans-serif; }
+        
+        .holo-gradient {
+            background: linear-gradient(135deg, #FF0099 0%, #9D00FF 50%, #00F0FF 100%);
+        }
+        
+        .glass-panel {
+            background: rgba(30, 16, 53, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .neon-border-pink { border: 1px solid rgba(255, 0, 153, 0.5); box-shadow: 0 0 15px rgba(255, 0, 153, 0.2); }
+        .neon-border-cyan { border: 1px solid rgba(0, 240, 255, 0.5); box-shadow: 0 0 15px rgba(0, 240, 255, 0.2); }
+        .neon-border-lime { border: 1px solid rgba(204, 255, 0, 0.5); box-shadow: 0 0 15px rgba(204, 255, 0, 0.2); }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        .text-glow-pink { text-shadow: 0 0 10px rgba(255, 0, 153, 0.8); }
+        .text-glow-cyan { text-shadow: 0 0 10px rgba(0, 240, 255, 0.8); }
+    </style>
+    <script type="importmap">
+    {
+      "imports": {
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "react": "https://esm.sh/react@^19.2.3",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+      }
+    }
+    </script>
+</head>
+<body class="selection:bg-neon-pink selection:text-white">
+    <div id="root"></div>
+</body>
+</html>
