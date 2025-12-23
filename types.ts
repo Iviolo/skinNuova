@@ -15,7 +15,6 @@ export interface Product {
   usageNotes: string;
   safetyWarnings: string;
   color: string;
-  // Nuovi campi tecnici dal Dossier
   activeIngredient?: string;
   texture?: string;
   technicalFunction?: string;
@@ -75,4 +74,4 @@ export interface NightTheme {
   products: string[];
 }
 
-export type Screen = 'WELCOME' | 'HOME' | 'AM' | 'PM_OVERVIEW' | 'NIGHT_DETAIL' | 'DOSSIER' | 'PRODUCTS' | 'SAGGEZZA' | 'PRODUCT_DETAIL' | 'ADD_PRODUCT' | 'EDIT_CYCLE' | 'LAB';
+export type Screen = 'WELCOME' | 'HOME' | 'AM' | 'PM_OVERVIEW' | 'NIGHT_DETAIL' | 'DOSSIER' | 'PRODUCTS' | 'SAGGEZZA' | 'PRODUCT_DETAIL' | 'ADD_PRODUCT' | 'EDIT_PRODUCT' | 'EDIT_CYCLE' | 'LAB';

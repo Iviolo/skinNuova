@@ -3,8 +3,8 @@ import { NightType, Product, Achievement } from './types';
 import { calculateStreak } from './utils/storage';
 
 /**
- * Database prodotti sincronizzato con le immagini fornite dall'utente.
- * Utilizziamo link Amazon diretti che sono i più stabili per evitare blocchi CORS.
+ * Database prodotti sincronizzato.
+ * Utilizziamo link stabili per garantire il caricamento visivo.
  */
 export const PRODUCTS: Record<string, Product> = {
   neutrogena_gel: {
@@ -115,7 +115,7 @@ export const PRODUCTS: Record<string, Product> = {
     id: 'to_squalane',
     brand: 'The Ordinary',
     name: '100% Plant-Derived Squalane',
-    image: 'https://m.media-amazon.com/images/I/51G+yV2O2iL._AC_SL1500_.jpg',
+    image: 'https://i.imgur.com/g9QK0q3.jpg',
     category: 'BOOSTER',
     activeIngredient: 'Squalano puro',
     texture: 'Olio non untuoso',
@@ -141,7 +141,7 @@ export const PRODUCTS: Record<string, Product> = {
     id: 'gerovital_h3',
     brand: 'Gerovital',
     name: 'H3 Classic Crema Hyaluron',
-    image: 'https://m.media-amazon.com/images/I/61x0H6n2p6L._AC_SL1000_.jpg',
+    image: 'https://i.imgur.com/UiSBuVw.jpg',
     category: 'IDRATAZIONE',
     activeIngredient: 'Acido Ialuronico + Complesso H3',
     texture: 'Crema ricca rigenerante',
@@ -208,9 +208,16 @@ export const ACHIEVEMENTS: Achievement[] = [
   {
     id: 'week_warrior',
     title: 'Guerriero della Settimana',
-    desc: 'Raggiungi una serie di 7 giorni consecutivi.',
+    desc: 'Raggiungi una serie di 7 giorni consecutivi di routine perfetta.',
     icon: 'workspace_premium',
     condition: (profile, logs) => calculateStreak(logs) >= 7
+  },
+  {
+    id: 'elite_agent',
+    title: 'Agente d\'Elite',
+    desc: 'Dimostra la tua dedizione accumulando 1000 XP totali.',
+    icon: 'shield_person',
+    condition: (profile) => profile.xp >= 1000
   }
 ];
 

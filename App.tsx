@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState } from 'react';
 import { Screen, UserProfile, DailyLog, NightType, Product, NightTheme } from './types';
 import { 
   getProfile, saveProfile, getLogs, updateTodayLog, getTodayKey, 
@@ -47,20 +47,22 @@ const App: React.FC = () => {
     setProfile(newProfile);
   };
 
-  // Funzione di eliminazione profonda
+  const handleUpdateProduct = (updatedProduct: Product) => {
+    const newProducts = { ...products, [updatedProduct.id]: updatedProduct };
+    setProducts(newProducts);
+    saveProducts(newProducts);
+  };
+
   const handleDeleteProduct = (id: string) => {
-    // 1. Rimuovi dall'inventario prodotti
     const newProducts = { ...products };
     delete newProducts[id];
     setProducts(newProducts);
     saveProducts(newProducts);
 
-    // 2. Rimuovi dalla routine AM
     const newAm = amRoutine.filter(pid => pid !== id);
     setAmRoutine(newAm);
     saveAMRoutine(newAm);
 
-    // 3. Rimuovi da tutti i cicli notte (PM)
     const newThemes = { ...themes };
     Object.keys(newThemes).forEach(key => {
       const nightType = parseInt(key);
@@ -122,7 +124,7 @@ const App: React.FC = () => {
           products={products} 
           onProductClick={(id) => { setSelectedProductId(id); setCurrentScreen('PRODUCT_DETAIL'); }} 
           onDeleteProduct={(id) => handleDeleteProduct(id)} 
-          onAdd={() => setCurrentScreen('ADD_PRODUCT')} 
+          onAdd={() => { setSelectedProductId(null); setCurrentScreen('ADD_PRODUCT'); }} 
           onBack={() => setCurrentScreen('HOME')} 
         />
       );
@@ -131,13 +133,23 @@ const App: React.FC = () => {
         <ProductDetail 
           product={products[selectedProductId!]} 
           onBack={() => setCurrentScreen('PRODUCTS')} 
+          onEdit={() => setCurrentScreen('EDIT_PRODUCT')}
           onDelete={() => {
             handleDeleteProduct(selectedProductId!);
             setCurrentScreen('PRODUCTS');
           }} 
         />
       );
-      case 'ADD_PRODUCT': return <AddProduct onAdd={(p) => { setProducts(prev => ({...prev, [p.id]: p})); saveProducts({...products, [p.id]: p}); setCurrentScreen('PRODUCTS'); }} onBack={() => setCurrentScreen('PRODUCTS')} />;
+      case 'ADD_PRODUCT': 
+      case 'EDIT_PRODUCT': 
+        return <AddProduct 
+          productToEdit={selectedProductId ? products[selectedProductId] : undefined}
+          onAdd={(p) => { 
+            handleUpdateProduct(p);
+            setCurrentScreen('PRODUCTS'); 
+          }} 
+          onBack={() => setCurrentScreen('PRODUCTS')} 
+        />;
       case 'EDIT_CYCLE': return <EditCycle type={selectedNightToEdit!} currentProducts={selectedNightToEdit === 'AM' ? amRoutine : themes[selectedNightToEdit as number].products} allProducts={products} onSave={(t, pids) => {
         if(t === 'AM') { saveAMRoutine(pids); setAmRoutine(pids); setCurrentScreen('HOME'); }
         else { const nt = {...themes}; nt[t as number].products = pids; saveThemes(nt); setThemes(nt); setCurrentScreen('PM_OVERVIEW'); }
@@ -161,7 +173,7 @@ const App: React.FC = () => {
       
       {renderScreen()}
       
-      {profile.onboarded && !['WELCOME', 'PRODUCT_DETAIL', 'ADD_PRODUCT', 'EDIT_CYCLE'].includes(currentScreen) && (
+      {profile.onboarded && !['WELCOME', 'PRODUCT_DETAIL', 'ADD_PRODUCT', 'EDIT_PRODUCT', 'EDIT_CYCLE'].includes(currentScreen) && (
         <nav className={`fixed bottom-0 left-0 right-0 max-w-md mx-auto glass-panel border-t border-white/5 flex items-center justify-around px-1 z-[60] safe-area-bottom ${profile.settings.compactMode ? 'h-16' : 'h-20'}`}>
           <NavItem active={currentScreen === 'HOME'} icon="home_app_logo" label="Home" onClick={() => setCurrentScreen('HOME')} color={profile.settings.hudColor} compact={profile.settings.compactMode} />
           <NavItem active={currentScreen === 'DOSSIER'} icon="folder_open" label="Dossier" onClick={() => setCurrentScreen('DOSSIER')} color={profile.settings.hudColor} compact={profile.settings.compactMode} />

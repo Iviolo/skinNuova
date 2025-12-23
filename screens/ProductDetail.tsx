@@ -5,10 +5,11 @@ import { Product } from '../types';
 interface ProductDetailProps {
   product: Product;
   onBack: () => void;
+  onEdit: () => void;
   onDelete: () => void;
 }
 
-const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack, onDelete }) => {
+const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack, onEdit, onDelete }) => {
   const [imgError, setImgError] = useState(false);
   if (!product) return null;
 
@@ -35,14 +36,22 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack, onDelete
             <button onClick={onBack} className="h-12 w-12 glass-panel rounded-2xl flex items-center justify-center text-white active:scale-90 transition-transform">
                 <span className="material-symbols-outlined">arrow_back</span>
             </button>
-            <button 
-              onClick={() => {
-                if(window.confirm("Rimuovere questo tesoro dall'inventario?")) onDelete();
-              }}
-              className="h-12 w-12 glass-panel rounded-2xl flex items-center justify-center text-red-500 active:scale-90 transition-transform"
-            >
-                <span className="material-symbols-outlined">delete_forever</span>
-            </button>
+            <div className="flex gap-2">
+              <button 
+                onClick={onEdit}
+                className="h-12 w-12 glass-panel rounded-2xl flex items-center justify-center text-neon-cyan active:scale-90 transition-transform"
+              >
+                  <span className="material-symbols-outlined">edit</span>
+              </button>
+              <button 
+                onClick={() => {
+                  if(window.confirm("Rimuovere questo tesoro dall'inventario?")) onDelete();
+                }}
+                className="h-12 w-12 glass-panel rounded-2xl flex items-center justify-center text-red-500 active:scale-90 transition-transform"
+              >
+                  <span className="material-symbols-outlined">delete_forever</span>
+              </button>
+            </div>
          </div>
          
          <div className="absolute bottom-8 left-6 right-6">
@@ -55,7 +64,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack, onDelete
       </div>
 
       <div className="px-6 flex flex-col gap-6 -mt-4">
-         {/* DOSSIER TECNICO SECTION */}
          <section className="glass-panel p-6 rounded-[2.5rem] border border-white/10 relative overflow-hidden bg-gradient-to-br from-white/[0.05] to-transparent">
             <div className="absolute top-0 right-0 p-4 opacity-10">
                 <span className="material-symbols-outlined text-5xl">biotech</span>
@@ -84,13 +92,11 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack, onDelete
             </div>
          </section>
 
-         {/* PROTOCOLLO SECTION */}
          <section className="glass-panel p-6 rounded-[2.5rem] border border-white/5">
             <h3 className="text-[10px] font-display font-black uppercase tracking-widest text-white/40 mb-3 italic">Istruzioni Operative</h3>
             <p className="text-text-dim italic leading-relaxed font-medium text-sm">{product.usageNotes || 'Nessuna specifica inserita.'}</p>
          </section>
 
-         {/* SAFETY SECTION */}
          {product.safetyWarnings && (
           <section className="glass-panel p-6 rounded-[2.5rem] border border-red-500/20 bg-red-500/[0.03]">
               <h3 className="text-[10px] font-display font-black uppercase tracking-widest text-red-500 mb-3 flex items-center gap-2 italic">

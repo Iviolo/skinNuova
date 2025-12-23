@@ -25,7 +25,7 @@ interface SaggezzaProps {
 
 const Saggezza: React.FC<SaggezzaProps> = ({ profile, logs, products, onUpdateProfile, onResetProducts, onHardReset, onBack }) => {
   const [activeTab, setActiveTab] = useState<'PROFILE' | 'CONFIG' | 'ACHIEVEMENTS'>('PROFILE');
-  const [resetStep, setResetStep] = useState<0 | 1>(0); // 0 = Iniziale, 1 = Conferma richiesta
+  const [resetStep, setResetStep] = useState<0 | 1>(0);
 
   const updateSettings = (updates: Partial<AppSettings>) => {
     onUpdateProfile({
@@ -44,6 +44,13 @@ const Saggezza: React.FC<SaggezzaProps> = ({ profile, logs, products, onUpdatePr
     } else {
       onHardReset();
     }
+  };
+
+  const getRank = (xp: number) => {
+    if (xp < 500) return "RECLUTA";
+    if (xp < 1000) return "AGENTE";
+    if (xp < 2500) return "VETERANO";
+    return "COMMANDER D'ELITE";
   };
 
   const isCompact = profile.settings.compactMode;
@@ -92,8 +99,8 @@ const Saggezza: React.FC<SaggezzaProps> = ({ profile, logs, products, onUpdatePr
 
               <div className="glass-panel p-6 rounded-[2.5rem] border border-white/10 flex items-center justify-between">
                   <div>
-                    <h4 className="text-[10px] font-display font-black text-white/40 uppercase tracking-widest mb-1 italic">Grado</h4>
-                    <p className="text-2xl font-display font-black text-white italic tracking-tighter">LVL {Math.floor(profile.xp / 500) + 1}</p>
+                    <h4 className="text-[10px] font-display font-black text-white/40 uppercase tracking-widest mb-1 italic">Grado Operativo</h4>
+                    <p className="text-2xl font-display font-black text-white italic tracking-tighter">{getRank(profile.xp)}</p>
                   </div>
                   <div className="text-right">
                     <h4 className="text-[10px] font-display font-black text-white/40 uppercase tracking-widest mb-1 italic">Esperienza</h4>
@@ -160,6 +167,11 @@ const Saggezza: React.FC<SaggezzaProps> = ({ profile, logs, products, onUpdatePr
 
         {activeTab === 'ACHIEVEMENTS' && (
           <div className="animate-in fade-in slide-in-from-left-4 duration-500 space-y-6">
+              <div className="glass-panel p-4 rounded-2xl border border-white/5 bg-black/40 mb-4">
+                <p className="text-[10px] font-display font-black text-white/40 uppercase tracking-widest">GRADO ATTUALE</p>
+                <h4 className="text-xl font-display font-black dynamic-accent italic tracking-tighter uppercase">{getRank(profile.xp)}</h4>
+              </div>
+
               <div className="flex flex-col gap-4">
                   {ACHIEVEMENTS.map(ach => {
                       const isUnlocked = ach.condition(profile, logs, products);
@@ -191,7 +203,7 @@ const Saggezza: React.FC<SaggezzaProps> = ({ profile, logs, products, onUpdatePr
 const TabNav: React.FC<{ active: boolean, label: string, onClick: () => void }> = ({ active, label, onClick }) => (
   <button 
     onClick={onClick}
-    className={`flex-1 py-3 text-[10px] font-display font-black uppercase tracking-widest transition-all rounded-xl ${active ? `dynamic-bg text-black shadow-lg scale-95` : 'text-white/30'}`}
+    className={`flex-1 py-3 text-[10px] font-display font-black uppercase tracking-widest transition-all rounded-xl ${active ? `dynamic-bg text-black shadow-lg scale-95` : 'text-white/40'}`}
   >
     {label}
   </button>
