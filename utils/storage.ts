@@ -203,14 +203,22 @@ export const getTodayKey = () => new Date().toISOString().split('T')[0];
 
 export const getAutoNightType = (): NightType => {
   const logs = getLogs();
-  const keys = Object.keys(logs).sort().reverse();
   const today = getTodayKey();
+  
+  // Se per oggi è già stato impostato un tipo di notte (es. l'utente l'ha iniziato o cambiato), usa quello
   if (logs[today]?.nightType) return logs[today].nightType;
-  if (keys.length > 0) {
-    const lastKey = keys[0];
-    const lastNight = logs[lastKey].nightType;
+  
+  // Altrimenti cerchiamo l'ultimo giorno in cui la routine PM è stata COMPLETATA
+  const sortedKeys = Object.keys(logs).sort().reverse();
+  const lastCompletedKey = sortedKeys.find(key => key < today && logs[key].pmCompleted);
+  
+  if (lastCompletedKey) {
+    const lastNight = logs[lastCompletedKey].nightType;
+    // Avanza al prossimo tipo nel ciclo di 4 giorni
     return (lastNight % 4) + 1 as NightType;
   }
+  
+  // Default se non ci sono log precedenti completati
   return NightType.EXFOLIATION;
 };
 
