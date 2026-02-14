@@ -55,7 +55,7 @@ const Saggezza: React.FC<SaggezzaProps> = ({ profile, logs, products, onUpdatePr
 
         new Notification("Skincare Quest", {
           body: "Promemoria attivati con successo! ✨",
-          icon: "/favicon.ico"
+          icon: `${import.meta.env.BASE_URL}favicon.ico`
         });
       } else if (permission === 'denied') {
         setNotificationsEnabled(false);
@@ -82,7 +82,7 @@ const Saggezza: React.FC<SaggezzaProps> = ({ profile, logs, products, onUpdatePr
       setTimeout(() => {
         new Notification("Skincare Quest", {
           body: "È ora della tua routine! Non dimenticare i tuoi prodotti. 🧴",
-          icon: "/favicon.ico"
+          icon: `${import.meta.env.BASE_URL}favicon.ico`
         });
       }, 10000);
       alert("Notifica programmata tra 10 secondi!");
