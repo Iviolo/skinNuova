@@ -14,3 +14,16 @@ root.render(
     <App />
   </React.StrictMode>
 );
+
+// Registrazione del Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('SW registrato con successo:', registration.scope);
+      })
+      .catch(error => {
+        console.error('Registrazione SW fallita:', error);
+      });
+  });
+}
