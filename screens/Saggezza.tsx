@@ -213,13 +213,25 @@ const Saggezza: React.FC<SaggezzaProps> = ({ profile, logs, products, onUpdatePr
               )}
 
               {notificationsEnabled && (
-                <button
-                  onClick={sendTestNotification}
-                  className="w-full py-3 rounded-xl border border-current dynamic-accent text-current font-display font-bold uppercase text-[9px] tracking-widest hover:bg-white/5 transition-all flex items-center justify-center gap-2"
-                >
-                  <span className="material-symbols-outlined text-sm">timer</span>
-                  Test Notifica (10s)
-                </button>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-4 bg-black/20 rounded-2xl border border-white/5">
+                    <span className="text-[10px] font-display font-bold uppercase tracking-widest text-white/60">Orario Promemoria</span>
+                    <input
+                      type="time"
+                      value={profile.settings.reminderTime || '21:00'}
+                      onChange={(e) => updateSettings({ reminderTime: e.target.value })}
+                      className="bg-transparent border-none text-white font-display font-bold text-lg outline-none cursor-pointer [color-scheme:dark]"
+                    />
+                  </div>
+
+                  <button
+                    onClick={sendTestNotification}
+                    className="w-full py-3 rounded-xl border border-current dynamic-accent text-current font-display font-bold uppercase text-[9px] tracking-widest hover:bg-white/5 transition-all flex items-center justify-center gap-2"
+                  >
+                    <span className="material-symbols-outlined text-sm">timer</span>
+                    Test Notifica (10s)
+                  </button>
+                </div>
               )}
             </div>
 
